@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta content="stuff, to, help, search, engines, not" name="keywords">
-<meta content="What this page is about." name="description">
-<meta content="Display Webcam Stream" name="title">
-<title>Display Webcam Stream</title>
-
-<style>
-#container {
-    margin: 0px auto;
-    width: 500px;
-    height: 375px;
-    border: 10px #333 solid;
-}
-#videoElement {
-    width: 500px;
-    height: 375px;
-    background-color: #666;
-}
-</style>
+    <title>JSSample</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 </head>
-
 <body>
-<div id="container">
-    <video autoplay="true" id="videoElement">
+<form action = "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize" method = "post">
+    image : <input type = "file"> <br>
+</form>
+<!--script type="text/javascript">
+    $(function() {
+        var params = {
+            faceRectangle
+        };
+      
+        $.ajax({
+            url: "https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize?" + $.param(params),
+            beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","{e0526585f5844d6fa35dd6049db1e614}");
+            },
+            POST https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize HTTP/1.1
+            Content-Type: application/json
+            Host: westus.api.cognitive.microsoft.com
 
-    </video>
-</div>
-<script>
-
-</script>
+{ "url": "http://img.timeinc.net/time/daily/2010/1011/poy_nomination_agassi.jpg" }// Request body
+           data: "{body}",
+        })
+        .done(function(data) {
+            alert("success");
+        })
+        .fail(function() {
+            alert("error");
+        });
+    });
+</script-->
 </body>
 </html>
