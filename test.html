@@ -28,6 +28,9 @@
 
     </video>
 </div>
+<!--<video id="video" width="640" height="480" autoplay></video>!-->
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
 <script>
 var video = document.querySelector("#videoElement");
 
@@ -54,5 +57,6 @@ document.getElementById("snap").addEventListener("click", function() {
 	context.drawImage(video, 0, 0, 640, 480);
 });
 </script>
+
 </body>
 </html>
