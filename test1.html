@@ -33,9 +33,11 @@ var video = document.getElementById('video');
 // Trigger photo take
 document.getElementById("snap").addEventListener("click", function() {
 	context.drawImage(video, 0, 0, 640, 480);
+  var IMurl=canvas.toDataURL("application/JSON");
+  console.log(IMurl)
 });
-var IMurl=canvas.toDataURL("application/JSON");
-console.log(IMurl)
+
+
 //$("#response").text(url);
 var apiKey = "dc99b2b338c44044adb4539f43fdcfa0";
 
