@@ -35,6 +35,7 @@ document.getElementById("snap").addEventListener("click", function() {
 	context.drawImage(video, 0, 0, 640, 480);
   var IMurl=canvas.toDataURL("application/JSON");
   console.log(IMurl)
+  CallAPI(IMurl, apiUrl, apiKey);
 });
 
 
@@ -47,8 +48,8 @@ var apiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
 $('#snap').click(function () {
 //file: The file that will be sent to the api
 //var file = document.getElementById(url).files[0];
-
-CallAPI(IMurl, apiUrl, apiKey);
+//JUS CHANGED THIS -- Look at line 38
+//CallAPI(IMurl, apiUrl, apiKey);
 });
 
 function CallAPI(IMurl, apiUrl, apiKey)
