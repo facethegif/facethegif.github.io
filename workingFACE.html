@@ -47,6 +47,9 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         video.play();
     });
 }
+elseif () {
+  console.log("oops your browser does not support our wonderful website")
+}
 // Elements for taking the snapshot
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
