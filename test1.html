@@ -72,6 +72,9 @@ function makeblob(dataURL) {
 
             return new Blob([uInt8Array], { type: contentType });
         }
+var masterBlob=makeblob(IMurl);
+console.log(masterBlob)
+
 function CallAPI(IMurl, apiUrl, apiKey)
 {
 $.ajax({
@@ -81,7 +84,7 @@ xhrObj.setRequestHeader("Content-Type", "application/JSON");
 xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
 },
 type: "POST",
-data: makeblob(IMurl),
+data: masterBlob ,
 processData: false
 })
 .done(function (response) {
