@@ -29,7 +29,7 @@ var video = document.getElementById('video');
 document.getElementById("snap").addEventListener("click", function() {
 	context.drawImage(video, 0, 0, 640, 480);
 });
-var url=context.toDataURL();
+var url=canvas.toDataURL();
 console.log(url)
 //$("#response").text(url);
 </script>
