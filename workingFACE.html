@@ -1,0 +1,113 @@
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+
+<body>
+<!--
+	Ideally these elements aren't created until it's confirmed that the
+	client supports video/camera, but for the sake of illustrating the
+	elements involved, they are created with markup (not JavaScript)
+-->
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+<script>
+function makeblob(dataURL) {
+            var BASE64_MARKER = ';base64,';
+            if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                var parts = dataURL.split(',');
+                var contentType = parts[0].split(':')[1];
+                var raw = decodeURIComponent(parts[1]);
+                return new Blob([raw], { type: contentType });
+            }
+            var parts = dataURL.split(BASE64_MARKER);
+            var contentType = parts[0].split(':')[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+
+            var uInt8Array = new Uint8Array(rawLength);
+
+            for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+
+            return new Blob([uInt8Array], { type: contentType });
+        }
+
+// Grab elements, create settings, etc.
+var video = document.getElementById('video');
+
+// Get access to the camera!
+if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+    });
+}
+// Elements for taking the snapshot
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var video = document.getElementById('video');
+//var url= canvas.HTMLCanvasElement.toDataURL();
+// Trigger photo take
+document.getElementById("snap").addEventListener("click", function() {
+	context.drawImage(video, 0, 0, 640, 480);
+  var IMurl=canvas.toDataURL("application/JSON");
+  //console.log(IMurl)
+  var masterBlob=makeblob(IMurl);
+  console.log(masterBlob)
+  CallAPI(masterBlob, apiUrl, apiKey);
+
+});
+
+
+//$("#response").text(url);
+var apiKey = "dc99b2b338c44044adb4539f43fdcfa0";
+
+//apiUrl: The base URL for the API. Find out what this is for other APIs via the API documentation
+var apiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
+
+$('#snap').click(function () {
+//file: The file that will be sent to the api
+//var file = document.getElementById(url).files[0];
+//JUS CHANGED THIS -- Look at line 38
+//CallAPI(IMurl, apiUrl, apiKey);
+});
+
+
+function CallAPI(masterBlob, apiUrl, apiKey)
+{
+$.ajax({
+url: apiUrl,
+beforeSend: function (xhrObj) {
+xhrObj.setRequestHeader("Content-Type", "application/JSON");
+xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
+},
+type: "POST",
+data: masterBlob ,
+processData: false
+})
+.done(function (response) {
+ProcessResult(response);
+})
+.fail(function (error) {
+$("#response").text(error.getAllResponseHeaders());
+});
+}
+
+function ProcessResult(response)
+{
+  console.log(response)
+  var data = JSON.stringify(response);
+  var lol = JSON.stringify(response[1].scores.anger);
+  //$("#response").text(lol);
+ console.log(data);
+ console.log(lol);
+}
+
+</script>
+</body>
+</html>
