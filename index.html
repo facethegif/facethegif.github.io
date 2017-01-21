@@ -19,9 +19,15 @@
                 xhrObj.setRequestHeader("Content-Type","application/json");
                 xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","{e0526585f5844d6fa35dd6049db1e614}");
             },
-            type: "POST",
-            // Request body
-            data: "{body}",
+            POST https://westus.api.cognitive.microsoft.com/emotion/v1.0/recognize HTTP/1.1
+            Content-Type: application/json
+            Host: westus.api.cognitive.microsoft.com
+            Ocp-Apim-Subscription-Key: ••••••••••••••••••••••••••••••••
+            Authorization: e0526585f5844d6fa35dd6049db1e614
+
+
+{ "url": "http://img.timeinc.net/time/daily/2010/1011/poy_nomination_agassi.jpg" }// Request body
+           data: "{body}",
         })
         .done(function(data) {
             alert("success");
