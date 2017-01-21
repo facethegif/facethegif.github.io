@@ -9,6 +9,7 @@
  <input type="file" id="filename" name="filename">
  <button id="btn">Click here</button>
  <p id="response"></p>
+ <p id ="giphyme"></p>
 
  <script type="text/javascript">
  //apiKey: Replace this with your own Project Oxford Emotion API key, please do not use my key. I include it here so you can get up and running quickly but you can get your own key for free at https://www.projectoxford.ai/emotion
@@ -47,9 +48,78 @@
  function ProcessResult(response)
  {
  var data = JSON.stringify(response);
- var lol = JSON.stringify(response[1].scores.anger);
- $("#response").text(lol);
+ var lol = JSON.stringify(response[0].scores);
+ var scores1 = response[0].scores;
+
+ var max = 0;
+ var maxname = "";
+
+ if (scores1.anger > max) {
+    maxname = "anger";
+    max = scores1.anger;
  }
+
+ if (scores1.contempt > max) {
+    maxname = "contempt";
+    max = scores1.contempt;
+ }
+
+ if (scores1.disgust > max) {
+   maxname = "disgust";
+   max = scores1.disgust;
+ }
+
+ if (scores1.fear > max) {
+   maxname = "fear";
+   max = scores1.fear;
+ }
+
+ if (scores1.happiness > max) {
+   maxname = "happiness";
+   max = scores1.happiness;
+ }
+
+ if (scores1.neutral > max) {
+   maxname = "neutral";
+   max = scores1.neutral;
+ }
+
+ if (scores1.sadness > max) {
+   maxname = "sadness";
+   max = scores1.sadness;
+ }
+
+ if (scores1.surprise > max) {
+   maxname = "surprise";
+   max = scores1.surprise;
+ }
+
+
+ $("#response").text(maxname);
+
+ q = maxname; // search query
+
+ request = new XMLHttpRequest;
+ request.open('GET', 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag='+q, true);
+
+ request.onload = function() {
+   if (request.status >= 200 && request.status < 400){
+     data = JSON.parse(request.responseText).data.image_url;
+     console.log(data);
+     document.getElementById("giphyme").innerHTML = '<center><img src = "'+data+'"  title="GIF via Giphy"></center>';
+   } else {
+     console.log('reached giphy, but API returned an error');
+    }
+ };
+
+ request.onerror = function() {
+   console.log('connection error');
+ };
+
+ request.send();
+ }
+
+
  </script>
  </body>
 
