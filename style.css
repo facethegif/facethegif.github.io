@@ -6,13 +6,11 @@ body {
 
 #footer {
 	background-color: #A3D0F0;
+    padding-top: 10px;
+    padding-bottom: 0px;
     position:fixed;
-    height:20px;
-    background-color:red;
-    bottom:0px;
-    left:0px;
-    right:0px;
-    margin-bottom:0px;
+    bottom:0;
+    width:100%;
 }
 
 .resize {
