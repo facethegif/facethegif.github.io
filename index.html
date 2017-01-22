@@ -1,142 +1,185 @@
 <html>
 
- <head>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <style>
- background-color: #C6E5D9;
- </style>
-<title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
 
- </head>
+<body>
+<!--
+  Ideally these elements aren't created until it's confirmed that the
+  client supports video/camera, but for the sake of illustrating the
+  elements involved, they are created with markup (not JavaScript)
+-->
+<center> <video id="video" width="640" height="480" autoplay></video> </center>
+<button id="snap">Snap Photo</button>
+<center><canvas id="canvas" width="640" height="480"></canvas></center>
+<p id="response"></p>
+<p id ="giphyme"></p>
 
- <body>
- SAMPLE
- 
-<div class="container">
-
- <p>This example shows how to post an image to the Project Oxford Emotion API using a binary file</p>
- <input type="file" id="filename" name="filename">
- <button id="btn">Click here</button>
- <p id="response"></p>
- <p id ="giphyme"></p>
-
- <script type="text/javascript">
- //apiKey: Replace this with your own Project Oxford Emotion API key, please do not use my key. I include it here so you can get up and running quickly but you can get your own key for free at https://www.projectoxford.ai/emotion
- var apiKey = "dc99b2b338c44044adb4539f43fdcfa0";
-
- //apiUrl: The base URL for the API. Find out what this is for other APIs via the API documentation
- var apiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
-
- $('#btn').click(function () {
- //file: The file that will be sent to the api
- var file = document.getElementById('filename').files[0];
-
- CallAPI(file, apiUrl, apiKey);
- });
-
- function CallAPI(file, apiUrl, apiKey)
- {
- $.ajax({
- url: apiUrl,
- beforeSend: function (xhrObj) {
- xhrObj.setRequestHeader("Content-Type", "application/octet-stream");
- xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
- },
- type: "POST",
- data: file,
- processData: false
- })
- .done(function (response) {
- ProcessResult(response);
- })
- .fail(function (error) {
- $("#response").text(error.getAllResponseHeaders());
- });
- }
-
- function ProcessResult(response)
- {
- var data = JSON.stringify(response);
- var lol = JSON.stringify(response[0].scores);
- var scores1 = response[0].scores;
-
- var max = 0;
- var maxname = "";
-
- if (scores1.anger > max) {
-    maxname = "anger";
-    max = scores1.anger;
- }
-
- if (scores1.contempt > max) {
-    maxname = "contempt";
-    max = scores1.contempt;
- }
-
- if (scores1.disgust > max) {
-   maxname = "disgust";
-   max = scores1.disgust;
- }
-
- if (scores1.fear > max) {
-   maxname = "fear";
-   max = scores1.fear;
- }
-
- if (scores1.happiness > max) {
-   maxname = "happiness";
-   max = scores1.happiness;
- }
-
- if (scores1.neutral > max) {
-   maxname = "neutral";
-   max = scores1.neutral;
- }
-
- if (scores1.sadness > max) {
-   maxname = "sadness";
-   max = scores1.sadness;
- }
-
- if (scores1.surprise > max) {
-   maxname = "surprise";
-   max = scores1.surprise;
- }
-
-
- $("#response").text(maxname);
-
- q = maxname; // search query
-
- request = new XMLHttpRequest;
- request.open('GET', 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag='+q, true);
-
- request.onload = function() {
-   if (request.status >= 200 && request.status < 400){
-     data = JSON.parse(request.responseText).data.image_url;
-     console.log(data);
-     document.getElementById("giphyme").innerHTML = '<center><img src = "'+data+'"  title="GIF via Giphy"></center>';
-   } else {
-     console.log('reached giphy, but API returned an error');
-    }
- };
-
- request.onerror = function() {
-   console.log('connection error');
- };
-
- request.send();
- }
-
-
- </script>
-</div>
- </body>
-
- </html>
+<script>
+function makeblob(dataURL) {
+            var BASE64_MARKER = ';base64,';
+            if (dataURL.indexOf(BASE64_MARKER) == -1) {
+                var parts = dataURL.split(',');
+                var contentType = parts[0].split(':')[1];
+                var raw = decodeURIComponent(parts[1]);
+                return new Blob([raw], { type: contentType });
+            }
+            var parts = dataURL.split(BASE64_MARKER);
+            var contentType = parts[0].split(':')[1];
+            var raw = window.atob(parts[1]);
+            var rawLength = raw.length;
+            var uInt8Array = new Uint8Array(rawLength);
+            for (var i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+            return new Blob([uInt8Array], { type: contentType });
+        }
+// Grab elements, create settings, etc.
+var video = document.getElementById('video');
+// Get access to the camera!
+if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+    });
+}
+else {
+  console.log("oops your browser does not support our wonderful website")
+}
+// Elements for taking the snapshot
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var video = document.getElementById('video');
+//var url= canvas.HTMLCanvasElement.toDataURL();
+// Trigger photo take
+document.getElementById("snap").addEventListener("click", function() {
+  context.drawImage(video, 0, 0, 640, 480);
+  var IMurl=canvas.toDataURL("application/JSON");
+  //console.log(IMurl)
+  var masterBlob=makeblob(IMurl);
+  console.log(masterBlob)
+  CallAPI(masterBlob, apiUrl, apiKey);
+});
+//$("#response").text(url);
+var apiKey = "dc99b2b338c44044adb4539f43fdcfa0";
+//apiUrl: The base URL for the API. Find out what this is for other APIs via the API documentation
+var apiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
+$('#snap').click(function () {
+//file: The file that will be sent to the api
+//var file = document.getElementById(url).files[0];
+//JUS CHANGED THIS -- Look at line 38
+//CallAPI(IMurl, apiUrl, apiKey);
+});
+function CallAPI(masterBlob, apiUrl, apiKey)
+{
+$.ajax({
+url: apiUrl,
+beforeSend: function (xhrObj) {
+xhrObj.setRequestHeader("Content-Type", "application/JSON");
+xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", apiKey);
+},
+type: "POST",
+data: masterBlob ,
+processData: false
+})
+.done(function (response) {
+ProcessResult(response);
+})
+.fail(function (error) {
+$("#response").text(error.getAllResponseHeaders());
+});
+}
+function ProcessResult(response)
+{
+  //var data = JSON.stringify(response);
+  var lol = JSON.stringify(response[0].scores);
+  var scores1 = response[0].scores;
+  var max = 0;
+  var maxname = "";
+  if (scores1.anger > max) {
+     maxname = "anger";
+     max = scores1.anger;
+  }
+  if (scores1.contempt > max) {
+     maxname = "contempt";
+     max = scores1.contempt;
+  }
+  if (scores1.disgust > max) {
+    maxname = "disgust";
+    max = scores1.disgust;
+  }
+  if (scores1.fear > max) {
+    maxname = "fear";
+    max = scores1.fear;
+  }
+  if (scores1.happiness > max) {
+    maxname = "happiness";
+    max = scores1.happiness;
+  }
+  if (scores1.neutral > max) {
+    maxname = "neutral";
+    max = scores1.neutral;
+  }
+  if (scores1.sadness > max) {
+    maxname = "sadness";
+    max = scores1.sadness;
+  }
+  if (scores1.surprise > max) {
+    maxname = "surprise";
+    max = scores1.surprise;
+  }
+  $("#response").text(maxname);
+  var rand = Math.floor((Math.random() * 5) + 1);
+  //for variety
+  if (maxname == "neutral") {
+    var words = ["meh", "blah", "boring", "eh", "bland", "dreary"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "happiness") {
+    var words = ["amazing", "jubilant", "jolly", "ecstatic", "joyous", "cheerful"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "anger") {
+    var words = ["furious", "mad", "irritated", "pissed", "grouchy", "hostile"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "sadness") {
+    var words = ["glum", "heartbroken", "miserable", "sorrow", "melancholy", "depressed"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "surprise") {
+    var words = ["shocked", "astonished", "bewildered", "amazed", "wonder", "startled"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "fear") {
+    var words = ["terrified", "frightened", "horror", "scared", "dread", "anxious"];
+    q = words[rand];
+    $("#response").text(q);
+  } else {
+    q = maxname; //search query
+  }
+  request = new XMLHttpRequest;
+  request.open('GET', 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag='+q, true);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400){
+      data = JSON.parse(request.responseText).data.image_url;
+      console.log(data);
+      document.getElementById("giphyme").innerHTML = '<center><img src = "'+data+'"  title="GIF via Giphy"></center>';
+    } else {
+      console.log('reached giphy, but API returned an error');
+     }
+  };
+  request.onerror = function() {
+    console.log('connection error');
+  };
+  request.send();
+}
+</script>
+</body>
+<div id="footer">
+<b> Created at HackGTeeny 2017 by Alicia Chan, Avanti Joshi, and Vinny Ruia </b>
+  </div>
+</html>
