@@ -13,7 +13,7 @@ body {
     position:fixed;
     bottom:0;
     width:100%;
-    color: #000000;
+    color: #ffffff;
     font-size: 18px;
 }
 
@@ -48,4 +48,5 @@ body {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    font-family: 'Bungee Shade', cursive;
 }
