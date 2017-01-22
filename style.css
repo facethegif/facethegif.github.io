@@ -42,10 +42,14 @@ body {
 #snap {
 	background-color: #A3D0F0; 
     border: none;
-    color: white;
-    padding: 15px 32px;
+    color: black;
+    padding: 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+#special {
+	font-family: 'Bungee Shade', cursive;
+	font-size: 50px; 
 }
