@@ -149,11 +149,12 @@ function ProcessResult(response)
 
   //for variety
   if (maxname.equals("neutral")) {
+    $("#response").text("The rand number is " + rand);
     var words = ["meh", "blah", "boring", "eh", "adequate", "passable"];
     q = words[rand];
+  } else {
+    q = maxname; //search query
   }
-
-  //q = maxname; // search query
 
   request = new XMLHttpRequest;
   request.open('GET', 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag='+q, true);
