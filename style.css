@@ -6,10 +6,13 @@ body {
 
 #footer {
 	background-color: #A3D0F0;
-    position : absolute;
-    bottom : 0;
-    height : 40px;
-    margin-top : 40px;  /* Height of the footer */
+    position:fixed;
+    height:50px;
+    background-color:red;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    margin-bottom:0px;
 }
 
 .resize {
