@@ -145,13 +145,14 @@ function ProcessResult(response)
 
   $("#response").text(maxname);
 
-  var rand = Math.floor((Math.random() * 6) + 1);
+  var rand = Math.floor((Math.random() * 5) + 1);
 
   //for variety
   if (maxname == "neutral") {
     $("#response").text("The rand number is " + rand);
     var words = ["meh", "blah", "boring", "eh", "adequate", "passable"];
     q = words[rand];
+    $("#response").text(q);
   } else {
     q = maxname; //search query
   }
