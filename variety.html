@@ -168,6 +168,10 @@ function ProcessResult(response)
     var words = ["shocked", "astonished", "bewildered", "amazed", "wonder", "startled"];
     q = words[rand];
     $("#response").text(q);
+  } else if (maxname == "fear") {
+    var words = ["terrified", "frightened", "horror", "scared", "dread", "anxious"];
+    q = words[rand];
+    $("#response").text(q);
   } else {
     q = maxname; //search query
   }
