@@ -149,8 +149,23 @@ function ProcessResult(response)
 
   //for variety
   if (maxname == "neutral") {
-    $("#response").text("The rand number is " + rand);
     var words = ["meh", "blah", "boring", "eh", "bland", "dreary"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "happiness") {
+    var words = ["amazing", "jubilant", "jolly", "ecstatic", "joyous", "cheerful"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "anger") {
+    var words = ["furious", "mad", "irritated", "pissed", "grouchy", "hostile"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "sadness") {
+    var words = ["glum", "heartbroken", "miserable", "sorrow", "melancholy", "depressed"];
+    q = words[rand];
+    $("#response").text(q);
+  } else if (maxname == "surprise") {
+    var words = ["shocked", "astonished", "bewildered", "amazed", "wonder", "startled"];
     q = words[rand];
     $("#response").text(q);
   } else {
