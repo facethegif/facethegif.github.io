@@ -47,9 +47,6 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         video.play();
     });
 }
-else {
-  console.log("oops your browser does not support our wonderful website")
-}
 // Elements for taking the snapshot
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
@@ -112,5 +109,8 @@ function ProcessResult(response)
 }
 
 </script>
+<p style="font-family:ariel; font-size:22">
+"Oops your browser does not support our wonderful website, please try Google Chrome instead"
+</p>
 </body>
 </html>
