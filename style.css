@@ -1,8 +1,8 @@
 body {
     background-color: #000000;
     color: white;
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 28px; 
+	font-family: 'Bungee Shade', cursive;
+    font-size: 50px; 
     text-align: center;
 }
 
@@ -49,7 +49,8 @@ body {
     display: inline-block;
     font-size: 16px;
 }
-#special {
-	font-family: 'Bungee Shade', cursive;
-	font-size: 50px; 
+.bigfont {
+	font-family: 'Noto Sans', sans-serif;
+	font-size: 28px; 
+
 }
