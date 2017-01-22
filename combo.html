@@ -91,9 +91,11 @@ ProcessResult(response);
 $("#response").text(error.getAllResponseHeaders());
 });
 }
+
+
 function ProcessResult(response)
 {
-  var data = JSON.stringify(response);
+  //var data = JSON.stringify(response);
   var lol = JSON.stringify(response[0].scores);
   var scores1 = response[0].scores;
 
