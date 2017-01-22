@@ -148,7 +148,7 @@ function ProcessResult(response)
   var rand = Math.floor((Math.random() * 6) + 1);
 
   //for variety
-  if (maxname.equals("neutral")) {
+  if (maxname == "neutral") {
     $("#response").text("The rand number is " + rand);
     var words = ["meh", "blah", "boring", "eh", "adequate", "passable"];
     q = words[rand];
